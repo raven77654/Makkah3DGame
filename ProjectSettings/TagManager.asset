@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Ground
+  - Marker
+  - Urdu
+  - English
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - Ground
+  - 
+  - 
+  - Marker
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: info
+    uniqueID: 4246701773
+    locked: 0
+  - name: wazu
+    uniqueID: 852048491
+    locked: 0
+  - name: Namaz
+    uniqueID: 3289540183
+    locked: 0
+  - name: Final
+    uniqueID: 583769195
+    locked: 0
