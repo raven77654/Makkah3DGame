@@ -15,7 +15,6 @@ public class JamaraatManager : MonoBehaviour
     [Range(0f, 60f)] public float indicatorHeightOffset = 5f; // Height offset for the indicator above the player
 
     private int currentBeaconIndex = 0;     // Track which beacon the player is heading to
-    private bool reachedBeacon = false;     // Check if the beacon is reached
 
     void Start()
     {
@@ -66,22 +65,7 @@ public class JamaraatManager : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        MoveIndicatorToBeacon();  // Always update the indicator position above the player's head
-
-        // Check if the player has reached the current beacon
-        float distanceToBeacon = Vector3.Distance(player.position, beacons[currentBeaconIndex].position);
-        Debug.Log($"Distance to target {currentBeaconIndex}: {distanceToBeacon}");
-
-        if (!reachedBeacon && distanceToBeacon < 1.5f)
-        {
-            reachedBeacon = true;
-            OnReachBeacon();  // Player reached the beacon
-        }
-    }
-
-    void OnReachBeacon()
+    public void OnReachBeacon()
     {
         Debug.Log($"Reached beacon {currentBeaconIndex}");
         indicator.SetActive(false);  // Hide the indicator temporarily
@@ -108,16 +92,7 @@ public class JamaraatManager : MonoBehaviour
     public void OnFirstStoningPanelClosed()
     {
         firstStoningPanel.SetActive(false);  // Hide First Stoning panel
-
-        // Move to the next beacon
-        currentBeaconIndex++;
-        if (currentBeaconIndex < beacons.Length) // Ensure within bounds
-        {
-            ActivateBeacon(currentBeaconIndex);
-            reachedBeacon = false; // Reset the beacon state
-            MoveIndicatorToBeacon(); // Update the indicator for the next target
-            indicator.SetActive(true); // Show the indicator for the next target
-        }
+        MoveToNextBeacon();
     }
 
     void ShowSecondStoningPanel()
@@ -128,16 +103,7 @@ public class JamaraatManager : MonoBehaviour
     public void OnSecondStoningPanelClosed()
     {
         secondStoningPanel.SetActive(false);  // Hide Second Stoning panel
-
-        // Move to the next beacon
-        currentBeaconIndex++;
-        if (currentBeaconIndex < beacons.Length) // Ensure within bounds
-        {
-            ActivateBeacon(currentBeaconIndex);
-            reachedBeacon = false; // Reset the beacon state
-            MoveIndicatorToBeacon(); // Update the indicator for the next target
-            indicator.SetActive(true); // Show the indicator for the next target
-        }
+        MoveToNextBeacon();
     }
 
     void ShowThirdStoningPanel()
@@ -151,31 +117,38 @@ public class JamaraatManager : MonoBehaviour
         ShowFinalPanel();  // Display final panel
     }
 
+    void MoveToNextBeacon()
+    {
+        currentBeaconIndex++;
+        if (currentBeaconIndex < beacons.Length) // Ensure within bounds
+        {
+            ActivateBeacon(currentBeaconIndex);
+            MoveIndicatorToBeacon(); // Update the indicator for the next target
+            indicator.SetActive(true); // Show the indicator for the next target
+        }
+    }
+
     void ShowFinalPanel()
     {
         finalPanel.SetActive(true);  // Show final panel
         indicator.SetActive(false);  // Hide the indicator
     }
 
-    // Method for Home button to go to level menu
     public void OnFinalPanelHomeButton()
     {
         SceneManager.LoadScene("Select_Location");  // Load the level menu scene
     }
 
-    // Method for Restart button to reload the current scene
     public void OnFinalPanelRestartButton()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);  // Reload the current scene
     }
 
-    // Method for Cancel button to hide the final panel
     public void OnFinalPanelCancelButton()
     {
         finalPanel.SetActive(false);  // Hide final panel
     }
 
-    // Method for Close button in final panel to exit the game
     public void OnFinalPanelCloseButton()
     {
         Debug.Log("Closing the application.");
