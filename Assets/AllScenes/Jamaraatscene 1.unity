@@ -1755,8 +1755,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 619063011}
-  - component: {fileID: 619063015}
   - component: {fileID: 619063014}
+  - component: {fileID: 619063015}
   m_Layer: 0
   m_Name: JamaraatManager
   m_TagString: Untagged
@@ -1800,7 +1800,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 619063009}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b859be076c023cb43bbe149afc80d5fa, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f18fe4026a039d49922ca69abc52f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   jamaraatInfoPanel: {fileID: 420648452}
