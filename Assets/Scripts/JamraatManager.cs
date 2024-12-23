@@ -53,17 +53,36 @@ public class JamaraatManager : MonoBehaviour
             return;
         }
 
+        if (currentBeaconIndex >= beacons.Length)
+        {
+            Debug.LogError("Current beacon index is out of bounds.");
+            return;
+        }
+
         // Calculate the new position for the indicator above the player's head
         Vector3 abovePlayer = playerHead.position + Vector3.up * indicatorHeightOffset;
         indicator.transform.position = abovePlayer;
 
-        // Ensure the indicator points towards the current beacon
+        // Calculate the direction to the current beacon
         Vector3 directionToBeacon = (beacons[currentBeaconIndex].position - abovePlayer).normalized;
-        if (directionToBeacon != Vector3.zero)
+
+        // Debug logs to verify positions and directions
+        Debug.Log($"Indicator Position: {abovePlayer}");
+        Debug.Log($"Beacon Position: {beacons[currentBeaconIndex].position}");
+        Debug.Log($"Direction to Beacon: {directionToBeacon}");
+
+        // Ensure the indicator points towards the current beacon
+        if (directionToBeacon.sqrMagnitude > 0) // Avoid zero vector errors
         {
             indicator.transform.rotation = Quaternion.LookRotation(directionToBeacon);
         }
+        else
+        {
+            Debug.LogWarning("Direction to beacon is zero. Check beacon positions.");
+        }
     }
+
+
 
     public void OnReachBeacon()
     {
