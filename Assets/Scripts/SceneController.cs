@@ -5,10 +5,18 @@ using System.Collections;
 
 public class SceneController : MonoBehaviour
 {
-    public GameObject muzdalifahPanel;      // Panel for Muzdalifah
-    public GameObject wazuIntentionPanel;   // Panel for Wazu Intention
-    public GameObject namazPanel;           // Panel for Namaz instructions
-    public GameObject finalPanel;           // Final panel for pause or next scene
+    [SerializeField] TargetGuideController targetCont;
+
+    public GameObject muzdalifahPanelEng;      // Panel for Muzdalifah
+    public GameObject wazuIntentionPanelEng;   // Panel for Wazu Intention
+    public GameObject namazPanelEng;           // Panel for Namaz instructions
+    public GameObject finalPanelEng;           // Final panel for pause or next scene
+
+    public GameObject muzdalifahPanelUrdu;      // Panel for Muzdalifah
+    public GameObject wazuIntentionPanelUrdu;   // Panel for Wazu Intention
+    public GameObject namazPanelUrdu;           // Panel for Namaz instructions
+    public GameObject finalPanelUrdu;           // Final panel for pause or next scene
+
     public AudioSource azanAudioSource;     // Azan audio source
     public AudioSource duaAudioSource;      // Dua audio source
     public Transform[] beacons;             // Array of beacon positions (Wazu, Namaz)
@@ -30,12 +38,14 @@ public class SceneController : MonoBehaviour
 
     void ShowMuzdalifahPanel()
     {
-        muzdalifahPanel.SetActive(true);
+        muzdalifahPanelEng.SetActive(true);
+        muzdalifahPanelUrdu.SetActive(true);
     }
 
     public void OnMuzdalifahPanelClosed()
     {
-        muzdalifahPanel.SetActive(false);   // Close the panel
+        muzdalifahPanelEng.SetActive(false);   // Close the panel
+        muzdalifahPanelUrdu.SetActive(false);   // Close the panel
         StartCoroutine(PlayAzanFor22Seconds()); // Start Azan for 22 seconds
     }
 
@@ -88,7 +98,8 @@ public class SceneController : MonoBehaviour
 
     public void OnWazuPanelClosed()
     {
-        wazuIntentionPanel.SetActive(false);  // Hide Wazu panel
+        wazuIntentionPanelEng.SetActive(false);  // Hide Wazu panel
+        wazuIntentionPanelUrdu.SetActive(false);  // Hide Wazu panel
         duaAudioSource.Stop();  // Stop dua audio
 
         currentBeaconIndex++; // Move to the next beacon for Namaz
@@ -96,6 +107,7 @@ public class SceneController : MonoBehaviour
 
         MoveIndicatorToBeacon(); // Immediately move indicator to Namaz beacon after Wazu
         indicator.SetActive(true); // Show the indicator again for Namaz
+        targetCont.ActivateTarget(currentBeaconIndex);
     }
 
     void OnReachBeacon()
@@ -114,24 +126,28 @@ public class SceneController : MonoBehaviour
 
     void ShowWazuIntentionPanel()
     {
-        wazuIntentionPanel.SetActive(true);  // Show Wazu panel
+        wazuIntentionPanelEng.SetActive(true);  // Show Wazu panel
+        wazuIntentionPanelUrdu.SetActive(true);  // Show Wazu panel
         duaAudioSource.Play();  // Play dua audio
     }
 
     void ShowNamazPanel()
     {
-        namazPanel.SetActive(true);
+        namazPanelEng.SetActive(true);
+        namazPanelUrdu.SetActive(true);
     }
 
     public void OnNamazPanelClosed()
     {
-        namazPanel.SetActive(false);  // Hide Namaz panel
+        namazPanelEng.SetActive(false);  // Hide Namaz panel
+        namazPanelUrdu.SetActive(false);  // Hide Namaz panel
         ShowFinalPanel();  // Display final panel
     }
 
     void ShowFinalPanel()
     {
-        finalPanel.SetActive(true);  // Show final panel
+        finalPanelEng.SetActive(true);  // Show final panel
+        finalPanelUrdu.SetActive(true);  // Show final panel
         indicator.SetActive(false);  // Hide the indicator
     }
 
@@ -150,7 +166,8 @@ public class SceneController : MonoBehaviour
     // Method for Cancel button to hide the final panel
     public void OnFinalPanelCancelButton()
     {
-        finalPanel.SetActive(false);  // Hide final panel
+        finalPanelEng.SetActive(false);  // Hide final panel
+        finalPanelUrdu.SetActive(false);  // Hide final panel
     }
 
     // Method for Close button in final panel to exit the game

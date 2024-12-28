@@ -5,11 +5,11 @@ public class TargetGuideController : MonoBehaviour
     public GameObject[] targets; // Array of target objects
     private int currentTargetIndex = 0;
 
-    private GameObject activePanels; // Active language panels
+    [SerializeField] private GameObject activePanels; // Active language panels
 
     private void Start()
     {
-        activePanels = FindObjectOfType<LanguagePanelsController>().GetActivePanels();
+        //activePanels = FindObjectOfType<LanguagePanelsController>()?.GetActivePanels();
 
         if (targets.Length > 0)
         {
@@ -17,16 +17,16 @@ public class TargetGuideController : MonoBehaviour
         }
     }
 
-    public void OnTargetReached()
+   /* public void OnTargetReached()
     {
         if (currentTargetIndex < targets.Length)
         {
             // Display the corresponding panel
-            if (activePanels != null)
+            *//*if (activePanels != null)
             {
                 Transform panel = activePanels.transform.GetChild(currentTargetIndex);
                 if (panel != null) panel.gameObject.SetActive(true);
-            }
+            }*//*
 
             currentTargetIndex++;
 
@@ -36,9 +36,9 @@ public class TargetGuideController : MonoBehaviour
                 ActivateTarget(currentTargetIndex);
             }
         }
-    }
+    }*/
 
-    private void ActivateTarget(int index)
+    public void ActivateTarget(int index)
     {
         for (int i = 0; i < targets.Length; i++)
         {

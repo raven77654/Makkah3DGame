@@ -1,11 +1,17 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEngine.Rendering.DebugUI;
 
 public class ArafatController : MonoBehaviour
 {
-    public GameObject arafatInfoPanel; // Panel for Arafat information
-    public GameObject choicePanel;     // Panel for choices (prayer, dua, recite Quran)
-    public GameObject finalPanel;      // Final panel with home, close, and restart buttons
+    public GameObject arafatInfoPanelEng; // Panel for Arafat information
+    public GameObject choicePanelEng;     // Panel for choices (prayer, dua, recite Quran)
+    public GameObject finalPanelEng;      // Final panel with home, close, and restart buttons
+
+    public GameObject arafatInfoPanelUrdu; // Panel for Arafat information
+    public GameObject choicePanelUrdu;     // Panel for choices (prayer, dua, recite Quran)
+    public GameObject finalPanelUrdu;      // Final panel with home, close, and restart buttons
+
     public GameObject indicator;       // Indicator that moves towards the beacon
     public GameObject beacon;          // Target beacon for the model to reach
     public GameObject model;           // The model that will move towards the beacon
@@ -16,9 +22,14 @@ public class ArafatController : MonoBehaviour
     void Start()
     {
         // Show only the Arafat info panel at the start
-        ShowPanel(arafatInfoPanel);
-        choicePanel.SetActive(false);
-        finalPanel.SetActive(false);
+        ShowPanel(arafatInfoPanelEng);
+        choicePanelEng.SetActive(false);
+        finalPanelEng.SetActive(false);
+
+        ShowPanel(arafatInfoPanelUrdu);
+        choicePanelUrdu.SetActive(false);
+        finalPanelUrdu.SetActive(false);
+
         indicator.SetActive(false);
         beacon.SetActive(false);
     }
@@ -26,7 +37,8 @@ public class ArafatController : MonoBehaviour
     public void OnCloseArafatInfoPanel()
     {
         // Close Arafat info panel, show the indicator, and start moving the model towards the beacon
-        arafatInfoPanel.SetActive(false);
+        arafatInfoPanelEng.SetActive(false);
+        arafatInfoPanelUrdu.SetActive(false);
         indicator.SetActive(true);
         beacon.SetActive(true);
         isMovingToBeacon = true;
@@ -59,7 +71,10 @@ public class ArafatController : MonoBehaviour
                 beacon.SetActive(false);
 
                 // Show the choice panel
-                ShowPanel(choicePanel);
+
+                //Debug.Log("=========== ");
+                ShowPanel(choicePanelEng);
+                ShowPanel(choicePanelUrdu);
             }
         }
     }
@@ -67,12 +82,15 @@ public class ArafatController : MonoBehaviour
     public void OnCloseChoicePanel()
     {
         // Close choice panel and show the final panel
-        choicePanel.SetActive(false);
-        ShowPanel(finalPanel);
+        choicePanelEng.SetActive(false);
+        choicePanelUrdu.SetActive(false);
+        ShowPanel(finalPanelEng);
+        ShowPanel(finalPanelUrdu);
     }
 
     private void ShowPanel(GameObject panel)
     {
+        //Debug.Log(">>> " + panel.name);
         // Display the specified panel
         panel.SetActive(true);
     }
@@ -93,5 +111,5 @@ public class ArafatController : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);  // Reload the current scene
     }
 
-    
+
 }

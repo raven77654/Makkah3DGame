@@ -21,7 +21,7 @@ public class TawafManager : MonoBehaviour
         if (finalPanel != null)
             finalPanel.SetActive(false);
         else
-            Debug.LogError("finalPanel is not assigned in the Inspector.");
+            Debug.LogError("finalPanelEng is not assigned in the Inspector.");
     }
 
     public void CloseInfoPanel()
@@ -41,7 +41,7 @@ public class TawafManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("finalPanel is not assigned.");
+            Debug.LogError("finalPanelEng is not assigned.");
         }
     }
 

@@ -14,6 +14,7 @@ public class LanguagePanelsController : MonoBehaviour
 
     public void ApplyLanguage()
     {
+        Debug.Log(">>> Applying.....");
         string selectedLanguage = LanguageSelector.Instance.GetSelectedLanguage();
 
         if (englishPanels != null) englishPanels.SetActive(false);

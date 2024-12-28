@@ -3,7 +3,10 @@ using UnityEngine;
 public class TargetReachedHandler : MonoBehaviour  // Updated class name
 {
     [Header("UI and Indicators")]
-    public GameObject wazuMessageUI;  // Renamed variable
+    public GameObject wazuMessageUIEng;  // Renamed variable
+    public GameObject wazuMessageUIUrdu;  // Renamed variable
+
+
     public GameObject indicatorObject;  // Renamed variable
     public GameObject beaconObject;  // Renamed variable
 
@@ -13,9 +16,10 @@ public class TargetReachedHandler : MonoBehaviour  // Updated class name
         if (other.CompareTag("Player"))
         {
             // Activate the Wazu message UI
-            if (wazuMessageUI != null)
+            if (wazuMessageUIEng != null)
             {
-                wazuMessageUI.SetActive(true);
+                wazuMessageUIEng.SetActive(true);
+                wazuMessageUIUrdu.SetActive(true);
                 Debug.Log("Wazu message displayed.");
             }
 
