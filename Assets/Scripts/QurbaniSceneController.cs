@@ -1,119 +1,140 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.Collections;
+using static UnityEngine.Rendering.DebugUI;
 
 public class QurbaniSceneController : MonoBehaviour
 {
-    public GameObject qurbaniInfoPanel;
-    public GameObject qurbaniDistributionPanel;
-    public GameObject finalPanel;
-    public GameObject indicator;
-    public Transform targetPoint;
-    public GameObject model;
-    public Vector3 indicatorOffset = new Vector3(0, 2f, 0);  // Adjust the Y value for indicator height
 
-    private bool isMovingToTarget = false;
-    private bool hasReachedTarget = false; // Track if the model has already reached the target
+
+    public GameObject qurbaniInfoPanelE; // Panel for Arafat information
+    public GameObject qurbaniDistributionPanelE;
+    public GameObject finalPanelE;
+
+
+    public GameObject qurbaniInfoPanelU;
+    public GameObject qurbaniDistributionPanelU;
+    public GameObject finalPanelU;
+    public Transform playerHead;            // Reference to the player's head transform
+
+    public GameObject indicator;       // Indicator that moves towards the beacon
+    public GameObject beacon;          // Target beacon for the model to reach
+    public GameObject model;           // The model that will move towards the beacon
+    public Vector3 indicatorOffset = new Vector3(0, 2f, 0);  // Offset for indicator position above the model
+    private int currentBeaconIndex = 0;     // Track which beacon the player is heading to
+
+    private bool isMovingToBeacon = false; // Flag to control model movement to the beacon
 
     void Start()
     {
-        // Show Qurbani info panel first and hide others
-        qurbaniInfoPanel.SetActive(true);
-        qurbaniDistributionPanel.SetActive(false);
-        finalPanel.SetActive(false);
-        indicator.SetActive(false);  // Initially hide the indicator
+        currentBeaconIndex = 0;  // Start by targeting the first beacon (Wazu)
+        ShowQurbaniInfoPanel();   // Show the Muzdalifah panel at the start
+        indicator.SetActive(false); // Initially hide the indicator
 
-        // Start the process of showing the indicator after a short delay
-        StartCoroutine(ShowIndicatorAfterDelay());
+        // ShowPanel(QurbaniInfoPanel);
+      //  qurbaniDistributionPanelE.SetActive(false);
+      //  finalPanelE.SetActive(false);
+
+      //  ShowPanel(qurbaniInfoPanelU);
+       // qurbaniDistributionPanelU.SetActive(false);
+       // finalPanelU.SetActive(false);
+
+        indicator.SetActive(false);
+        beacon.SetActive(false);
     }
 
-    private IEnumerator ShowIndicatorAfterDelay()
+    void ShowQurbaniInfoPanel()
     {
-        yield return new WaitForSeconds(0.1f); // Wait for a short time before showing the indicator
-        indicator.SetActive(true);
-        Debug.Log("Indicator should now be visible: " + indicator.activeSelf);
-
-        // Start moving the indicator and model towards the target beacon
-        isMovingToTarget = true;
+        qurbaniInfoPanelE.SetActive(true);
+        qurbaniInfoPanelU.SetActive(true);
     }
 
-    public void CloseQurbaniInfoPanel()
-    {
-        // Hide the Qurbani Info Panel and show the indicator above the model
-        qurbaniInfoPanel.SetActive(false);
-        indicator.SetActive(true);
-        Debug.Log("Indicator activated after Qurbani Info Panel close: " + indicator.activeSelf);
 
-        // Start moving the indicator and model towards the target
-        isMovingToTarget = true;
+    public void OnCloseQurbaniInfoPanel()
+    {
+        // Close Qurbani info panel, show the indicator, and start moving the model towards the beacon
+        qurbaniInfoPanelE.SetActive(false);
+        qurbaniInfoPanelU.SetActive(false);
+        indicator.SetActive(true);
+        beacon.SetActive(true);
+        isMovingToBeacon = true;
     }
 
     private void Update()
     {
-        if (isMovingToTarget)
+        if (isMovingToBeacon)
         {
             // Position the indicator above the model's head
             indicator.transform.position = model.transform.position + indicatorOffset;
 
-            // Make the indicator point towards the target point
-            Vector3 directionToTarget = targetPoint.position - indicator.transform.position;
-            directionToTarget.y = 0; // Keep the indicator pointing horizontally (ignore vertical rotation)
-            if (directionToTarget.sqrMagnitude > 0.01f) // Avoid jittering when very close
+            // Make the indicator point towards the beacon
+            Vector3 directionToBeacon = beacon.transform.position - indicator.transform.position;
+            directionToBeacon.y = 0; // Keep the indicator pointing horizontally (ignore vertical rotation)
+            if (directionToBeacon.sqrMagnitude > 0.01f) // Avoid jittering when very close
             {
-                indicator.transform.rotation = Quaternion.LookRotation(directionToTarget);
+                indicator.transform.rotation = Quaternion.LookRotation(directionToBeacon);
             }
 
-            // Move the model towards the target point (beacon) without changing its Y-axis position
-            Vector3 targetPosition = new Vector3(targetPoint.position.x, model.transform.position.y, targetPoint.position.z);
-            model.transform.position = Vector3.MoveTowards(model.transform.position, targetPosition, Time.deltaTime * 2f);
+            // Move the model towards the beacon position
+            model.transform.position = Vector3.MoveTowards(model.transform.position, beacon.transform.position, Time.deltaTime * 2f);
 
-            // Check if the model has reached the target (beacon)
-            if (Vector3.Distance(model.transform.position, targetPosition) < 0.5f && !hasReachedTarget)
+            // Check if the model has reached the beacon
+            if (Vector3.Distance(model.transform.position, beacon.transform.position) < 0.5f)
             {
-                // Stop moving the model and hide the indicator
-                isMovingToTarget = false;
-                indicator.SetActive(false); // Hide the indicator after reaching the target
+                // Stop the model's movement and hide the indicator and beacon
+                isMovingToBeacon = false;
+                indicator.SetActive(false);
+                beacon.SetActive(false);
 
-                // Mark that the model has reached the target
-                hasReachedTarget = true;
+                // Show the choice panel
 
-                // Show the Qurbani Distribution Panel
-                qurbaniDistributionPanel.SetActive(true);
+                //Debug.Log("=========== ");
+                ShowPanel(qurbaniDistributionPanelE);
+                ShowPanel(qurbaniDistributionPanelU);
             }
         }
     }
 
-    public void CloseQurbaniDistributionPanel()
+    public void OnCloseChoicePanel()
     {
-        Debug.Log("Closing Qurbani Distribution Panel and opening Final Panel");
-
-        // Hide the Qurbani Distribution Panel and show the Final Panel
-        qurbaniDistributionPanel.SetActive(false);
-        finalPanel.SetActive(true);
+        // Close choice panel and show the final panel
+        qurbaniDistributionPanelE.SetActive(false);
+        qurbaniDistributionPanelU.SetActive(false);
+        ShowPanel(finalPanelE);
+        ShowPanel(finalPanelU);
     }
 
-    void ShowFinalPanel()
+    private void ShowPanel(GameObject panel)
     {
-        finalPanel.SetActive(true);  // Show final panel
-        indicator.SetActive(false);  // Hide the indicator
+        //Debug.Log(">>> " + panel.name);
+        // Display the specified panel
+        panel.SetActive(true);
     }
 
-    // Method for Home button to go to level menu
+    private void HidePanel(GameObject panel)
+    {
+        // Hide the specified panel
+        panel.SetActive(false);
+    }
+
     public void OnFinalPanelHomeButton()
     {
         SceneManager.LoadScene("Select_Location");  // Load the level menu scene (replace with actual scene name)
     }
 
-    // Method for Restart button to reload the current scene
     public void OnFinalPanelRestartButton()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);  // Reload the current scene
     }
 
-    // Method for Cancel button to hide the final panel
-    public void OnFinalPanelCancelButton()
-    {
-        finalPanel.SetActive(false);  // Hide final panel
-    }
+
 }
+
+
+
+
+
+
+
+
+   
+

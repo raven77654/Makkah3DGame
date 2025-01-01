@@ -3,10 +3,20 @@ using UnityEngine.SceneManagement;
 
 public class GameFlowManager : MonoBehaviour
 {
-    public GameObject safaMarwaInfoPanel;   // Panel for Safa Marwa information
-    public GameObject marwaPanel;          // Panel for Marwa instructions
-    public GameObject safaPanel;           // Panel for Safa instructions
-    public GameObject finalPanel;          // Final panel for pause or next scene
+    [SerializeField] TargetGuideController targetCont;
+
+
+    public GameObject safaMarwaInfoPanelE;   // Panel for Safa Marwa information
+    public GameObject marwaPanelE;          // Panel for Marwa instructions
+    public GameObject safaPanelE;           // Panel for Safa instructions
+    public GameObject finalPanelE;          // Final panel for pause or next scene
+
+    public GameObject safaMarwaInfoPanelU;   // Panel for Safa Marwa information
+    public GameObject marwaPanelU;          // Panel for Marwa instructions
+    public GameObject safaPanelU;           // Panel for Safa instructions
+    public GameObject finalPanelU;          // Final panel for pause or next scene
+
+
     public Transform[] beacons;            // Array of beacon positions (Marwa, Safa)
     public GameObject indicator;           // Indicator that points to the beacon
     public Transform player;               // Reference to the player GameObject
@@ -19,24 +29,30 @@ public class GameFlowManager : MonoBehaviour
     void Start()
     {
         // Start with the first target active
-        ActivateBeacon(0);
+        currentBeaconIndex = 0;
         ShowSafaMarwaInfoPanel(); // Show the Safa Marwa info panel at the start
         indicator.SetActive(false); // Hide the indicator until the panel is closed
     }
 
     void ShowSafaMarwaInfoPanel()
     {
-        safaMarwaInfoPanel.SetActive(true);
+        safaMarwaInfoPanelE.SetActive(true);
+        safaMarwaInfoPanelU.SetActive(true);
+
     }
 
     public void OnSafaMarwaInfoPanelClosed()
     {
-        safaMarwaInfoPanel.SetActive(false);   // Close the panel
+        safaMarwaInfoPanelE.SetActive(false);   // Close the panel
+        safaMarwaInfoPanelU.SetActive(false);   // Close the panel
         indicator.SetActive(true);            // Show the indicator
         MoveIndicatorToBeacon();              // Move the indicator to the first beacon (Marwa)
+
+        targetCont.ActivateTarget(currentBeaconIndex);
+
     }
 
-    void ActivateBeacon(int index)
+   /* void ActivateBeacon(int index)
     {
         // Deactivate all beacons
         for (int i = 0; i < beacons.Length; i++)
@@ -44,7 +60,7 @@ public class GameFlowManager : MonoBehaviour
             beacons[i].gameObject.SetActive(i == index); // Only activate the current beacon
         }
     }
-
+   */
     void MoveIndicatorToBeacon()
     {
         if (playerHead == null || beacons.Length == 0)
@@ -57,11 +73,17 @@ public class GameFlowManager : MonoBehaviour
         Vector3 abovePlayer = playerHead.position + Vector3.up * indicatorHeightOffset;
         indicator.transform.position = abovePlayer;
 
-        // Ensure the indicator points towards the current beacon
+        // Ensure the camera can see the indicator (set the Z value appropriately)
         Vector3 directionToBeacon = (beacons[currentBeaconIndex].position - abovePlayer).normalized;
         if (directionToBeacon != Vector3.zero)
         {
             indicator.transform.rotation = Quaternion.LookRotation(directionToBeacon);
+        }
+
+        // Ensure indicator is in a visible layer if it's a 3D object
+        if (indicator.GetComponent<Renderer>() != null)
+        {
+            indicator.GetComponent<Renderer>().enabled = true; // Ensure it is rendered
         }
     }
 
@@ -93,38 +115,44 @@ public class GameFlowManager : MonoBehaviour
 
     void ShowMarwaPanel()
     {
-        marwaPanel.SetActive(true);  // Show Marwa panel
+        marwaPanelE.SetActive(true);  // Show Marwa panel
+        marwaPanelU.SetActive(true);  // Show Marwa panel
+
     }
 
     public void OnMarwaPanelClosed()
     {
-        marwaPanel.SetActive(false);  // Hide Marwa panel
+        marwaPanelE.SetActive(false);  // Hide Marwa panel
+        marwaPanelU.SetActive(false);  // Hide Marwa panel
 
-        // Move to the next beacon (Safa)
-        currentBeaconIndex++;
-        if (currentBeaconIndex < beacons.Length) // Ensure within bounds
-        {
-            ActivateBeacon(currentBeaconIndex); // Activate the second beacon
-            reachedBeacon = false; // Reset the beacon state
-            MoveIndicatorToBeacon(); // Update the indicator for Safa
-            indicator.SetActive(true); // Show the indicator for the next target
-        }
+        currentBeaconIndex++; // Move to the next beacon for Namaz
+        reachedBeacon = false; // Reset for the next beacon
+
+        MoveIndicatorToBeacon(); // Immediately move indicator to Namaz beacon after Wazu
+        indicator.SetActive(true); // Show the indicator again for Namaz
+        targetCont.ActivateTarget(currentBeaconIndex);
     }
 
     void ShowSafaPanel()
     {
-        safaPanel.SetActive(true);
+        safaPanelE.SetActive(true);
+        safaPanelU.SetActive(true);
+
     }
 
     public void OnSafaPanelClosed()
     {
-        safaPanel.SetActive(false);  // Hide Safa panel
+        safaPanelE.SetActive(false);  // Hide Safa panel
+        safaPanelU.SetActive(false);  // Hide Safa panel
+
         ShowFinalPanel();  // Display final panel
     }
 
     void ShowFinalPanel()
     {
-        finalPanel.SetActive(true);  // Show final panel
+        finalPanelE.SetActive(true);  // Show final panel
+        finalPanelU.SetActive(true);  // Show final panel
+
         indicator.SetActive(false);  // Hide the indicator
     }
 
@@ -143,7 +171,9 @@ public class GameFlowManager : MonoBehaviour
     // Method for Cancel button to hide the final panel
     public void OnFinalPanelCancelButton()
     {
-        finalPanel.SetActive(false);  // Hide final panel
+        finalPanelE.SetActive(false);  // Hide final panel
+        finalPanelU.SetActive(false);  // Hide final panel
+
     }
 
     // Method for Close button in final panel to exit the game

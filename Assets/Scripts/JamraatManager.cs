@@ -3,11 +3,24 @@ using UnityEngine.SceneManagement;
 
 public class JamaraatManager : MonoBehaviour
 {
-    public GameObject jamaraatInfoPanel;   // Panel for Jamaraat information
-    public GameObject firstStoningPanel;  // Panel for First Stoning instructions
-    public GameObject secondStoningPanel; // Panel for Second Stoning instructions
-    public GameObject thirdStoningPanel;  // Panel for Third Stoning instructions
-    public GameObject finalPanel;         // Final panel for pause or next scene
+    [SerializeField] TargetGuideController targetCont;
+
+
+    public GameObject jamaraatInfoPanelE;   // Panel for Jamaraat information
+    public GameObject firstStoningPanelE;  // Panel for First Stoning instructions
+    public GameObject secondStoningPanelE; // Panel for Second Stoning instructions
+    public GameObject thirdStoningPanelE;  // Panel for Third Stoning instructions
+    public GameObject finalPanelE;         // Final panel for pause or next scene
+
+
+    public GameObject jamaraatInfoPanelU;   // Panel for Jamaraat information
+    public GameObject firstStoningPanelU;  // Panel for First Stoning instructions
+    public GameObject secondStoningPanelU; // Panel for Second Stoning instructions
+    public GameObject thirdStoningPanelU;  // Panel for Third Stoning instructions
+    public GameObject finalPanelU;         // Final panel for pause or next scene
+
+
+
     public Transform[] beacons;           // Array of beacon positions (targets)
     public GameObject indicator;          // Indicator that points to the beacon
     public Transform player;              // Reference to the player GameObject
@@ -15,28 +28,36 @@ public class JamaraatManager : MonoBehaviour
     [Range(0f, 60f)] public float indicatorHeightOffset = 5f; // Height offset for the indicator above the player
 
     private int currentBeaconIndex = 0;     // Track which beacon the player is heading to
+    private bool reachedBeacon = false;     // Check if the beacon is reached
+   
 
     void Start()
     {
-        // Start with the first target active
-        ActivateBeacon(0);
-        ShowJamaraatInfoPanel(); // Show the Jamaraat info panel at the start
+        currentBeaconIndex = 0;
+        ShowJamaraatInfoPanel();    // Show the Jamaraat info panel at the start
         indicator.SetActive(false); // Hide the indicator until the panel is closed
     }
 
     void ShowJamaraatInfoPanel()
     {
-        jamaraatInfoPanel.SetActive(true);
+        jamaraatInfoPanelE.SetActive(true);
+        jamaraatInfoPanelU.SetActive(true);
+
     }
 
     public void OnJamaraatInfoPanelClosed()
     {
-        jamaraatInfoPanel.SetActive(false);   // Close the panel
-        indicator.SetActive(true);            // Show the indicator
+        jamaraatInfoPanelE.SetActive(false);
+        jamaraatInfoPanelU.SetActive(false);
+
         MoveIndicatorToBeacon();              // Move the indicator to the first beacon
+        indicator.SetActive(true);            // Show the indicator
+        targetCont.ActivateTarget(currentBeaconIndex);
     }
 
-    void ActivateBeacon(int index)
+    /*
+    
+     void ActivateBeacon(int index)
     {
         // Deactivate all beacons
         for (int i = 0; i < beacons.Length; i++)
@@ -45,6 +66,7 @@ public class JamaraatManager : MonoBehaviour
         }
     }
 
+    */
     void MoveIndicatorToBeacon()
     {
         if (playerHead == null || beacons.Length == 0)
@@ -53,32 +75,32 @@ public class JamaraatManager : MonoBehaviour
             return;
         }
 
-        if (currentBeaconIndex >= beacons.Length)
-        {
-            Debug.LogError("Current beacon index is out of bounds.");
-            return;
-        }
-
         // Calculate the new position for the indicator above the player's head
         Vector3 abovePlayer = playerHead.position + Vector3.up * indicatorHeightOffset;
         indicator.transform.position = abovePlayer;
 
-        // Calculate the direction to the current beacon
+        // Ensure the camera can see the indicator (set the Z value appropriately)
         Vector3 directionToBeacon = (beacons[currentBeaconIndex].position - abovePlayer).normalized;
-
-        // Debug logs to verify positions and directions
-        Debug.Log($"Indicator Position: {abovePlayer}");
-        Debug.Log($"Beacon Position: {beacons[currentBeaconIndex].position}");
-        Debug.Log($"Direction to Beacon: {directionToBeacon}");
-
-        // Ensure the indicator points towards the current beacon
-        if (directionToBeacon.sqrMagnitude > 0) // Avoid zero vector errors
+        if (directionToBeacon != Vector3.zero)
         {
             indicator.transform.rotation = Quaternion.LookRotation(directionToBeacon);
         }
-        else
+
+        // Ensure indicator is in a visible layer if it's a 3D object
+        if (indicator.GetComponent<Renderer>() != null)
         {
-            Debug.LogWarning("Direction to beacon is zero. Check beacon positions.");
+            indicator.GetComponent<Renderer>().enabled = true; // Ensure it is rendered
+        }
+    }
+
+    void Update()
+    {
+        MoveIndicatorToBeacon();  // Always update the indicator position above the player's head
+
+        if (!reachedBeacon && Vector3.Distance(player.position, beacons[currentBeaconIndex].position) < 1.5f)
+        {
+            reachedBeacon = true;
+            OnReachBeacon();  // Player reached the beacon
         }
     }
 
@@ -86,8 +108,7 @@ public class JamaraatManager : MonoBehaviour
 
     public void OnReachBeacon()
     {
-        Debug.Log($"Reached beacon {currentBeaconIndex}");
-        indicator.SetActive(false);  // Hide the indicator temporarily
+         indicator.SetActive(false);  // Hide the indicator temporarily
 
         if (currentBeaconIndex == 0)  // First target
         {
@@ -105,38 +126,59 @@ public class JamaraatManager : MonoBehaviour
 
     void ShowFirstStoningPanel()
     {
-        firstStoningPanel.SetActive(true);  // Show First Stoning panel
+        
+            firstStoningPanelE.SetActive(true);
+            firstStoningPanelU.SetActive(true);
     }
 
     public void OnFirstStoningPanelClosed()
     {
-        firstStoningPanel.SetActive(false);  // Hide First Stoning panel
-        MoveToNextBeacon();
+        firstStoningPanelE.SetActive(false);  // Hide First Stoning panel
+        firstStoningPanelU.SetActive(false);  // Hide First Stoning panel
+        currentBeaconIndex++; // Move to the next beacon for Namaz
+        reachedBeacon = false; // Reset for the next beacon
+
+        MoveIndicatorToBeacon(); // Immediately move indicator to Namaz beacon after Wazu
+        indicator.SetActive(true); // Show the indicator again for Namaz
+        targetCont.ActivateTarget(currentBeaconIndex);
+
     }
 
     void ShowSecondStoningPanel()
     {
-        secondStoningPanel.SetActive(true);
+        
+            secondStoningPanelE.SetActive(true);
+            secondStoningPanelU.SetActive(true);
+        
     }
 
     public void OnSecondStoningPanelClosed()
     {
-        secondStoningPanel.SetActive(false);  // Hide Second Stoning panel
-        MoveToNextBeacon();
+        secondStoningPanelE.SetActive(false);  // Hide Second Stoning panel
+        secondStoningPanelU.SetActive(false);  // Hide Second Stoning panel
+        currentBeaconIndex++; // Move to the next beacon for Namaz
+        reachedBeacon = false; // Reset for the next beacon
+
+        MoveIndicatorToBeacon(); // Immediately move indicator to Namaz beacon after Wazu
+        indicator.SetActive(true); // Show the indicator again for Namaz
+        targetCont.ActivateTarget(currentBeaconIndex);
     }
 
     void ShowThirdStoningPanel()
     {
-        thirdStoningPanel.SetActive(true);
+        thirdStoningPanelE.SetActive(true);
+        thirdStoningPanelU.SetActive(true);
+        
     }
 
     public void OnThirdStoningPanelClosed()
     {
-        thirdStoningPanel.SetActive(false);  // Hide Third Stoning panel
+        thirdStoningPanelE.SetActive(false);  // Hide Third Stoning panel
+        thirdStoningPanelU.SetActive(false);  // Hide Third Stoning panel
         ShowFinalPanel();  // Display final panel
     }
 
-    void MoveToNextBeacon()
+   /* void MoveToNextBeacon()
     {
         currentBeaconIndex++;
         if (currentBeaconIndex < beacons.Length) // Ensure within bounds
@@ -145,12 +187,14 @@ public class JamaraatManager : MonoBehaviour
             MoveIndicatorToBeacon(); // Update the indicator for the next target
             indicator.SetActive(true); // Show the indicator for the next target
         }
-    }
+    }*/
 
     void ShowFinalPanel()
     {
-        finalPanel.SetActive(true);  // Show final panel
-        indicator.SetActive(false);  // Hide the indicator
+       
+         finalPanelE.SetActive(true);
+         finalPanelU.SetActive(true);
+         indicator.SetActive(false);  // Hide the indicator
     }
 
     public void OnFinalPanelHomeButton()
@@ -163,10 +207,7 @@ public class JamaraatManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);  // Reload the current scene
     }
 
-    public void OnFinalPanelCancelButton()
-    {
-        finalPanel.SetActive(false);  // Hide final panel
-    }
+   
 
     public void OnFinalPanelCloseButton()
     {
