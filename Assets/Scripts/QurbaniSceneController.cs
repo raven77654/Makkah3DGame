@@ -94,7 +94,7 @@ public class QurbaniSceneController : MonoBehaviour
         }
     }
 
-    public void OnCloseChoicePanel()
+    public void OnCloseQurbaniDistPanel()
     {
         // Close choice panel and show the final panel
         qurbaniDistributionPanelE.SetActive(false);

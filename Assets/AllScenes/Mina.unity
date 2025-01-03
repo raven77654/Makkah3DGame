@@ -38,6 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1095509360}
+  m_IndirectSpecularColor: {r: 0.7411008, g: 0.69812655, b: 0.7028753, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5988,10 +5989,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1576838823}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1013948533}
+        m_TargetAssemblyTypeName: SequenceManager, Assembly-CSharp
+        m_MethodName: OnMinaClosed
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7255,7 +7256,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 532847383}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 517.9685, y: 10.240768, z: 417.18375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8788,18 +8789,18 @@ PrefabInstance:
     - target: {fileID: 6586734651475758572, guid: 57ad407ef7122484f8c7a0ec53a61183, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1013948533}
+      objectReference: {fileID: 1013948534}
     - target: {fileID: 6586734651475758572, guid: 57ad407ef7122484f8c7a0ec53a61183, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6586734651475758572, guid: 57ad407ef7122484f8c7a0ec53a61183, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnFinalPanelHomeButton
+      value: OnHomeButtonClick
       objectReference: {fileID: 0}
     - target: {fileID: 6586734651475758572, guid: 57ad407ef7122484f8c7a0ec53a61183, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SequenceManager, Assembly-CSharp
+      value: HomeButton, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6586734651475758572, guid: 57ad407ef7122484f8c7a0ec53a61183, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -13426,13 +13427,6 @@ MonoBehaviour:
   wazuPanelU: {fileID: 1971505895}
   namazPanelU: {fileID: 412056864}
   finalPanelU: {fileID: 618984798}
-  minaCloseButton: {fileID: 1815152110}
-  namazTimingCloseButton: {fileID: 1094034131}
-  wazuCloseButton: {fileID: 1542589948}
-  namazCloseButton: {fileID: 1520610152}
-  restartButton: {fileID: 1823535681}
-  homeButton: {fileID: 503111402}
-  closeButton: {fileID: 0}
   azanAudioSource: {fileID: 1714773838}
   beacons:
   - {fileID: 1455009034}
@@ -15075,10 +15069,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 961058886}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1013948533}
+        m_TargetAssemblyTypeName: SequenceManager, Assembly-CSharp
+        m_MethodName: OnNamazTimingClosed
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -17630,8 +17624,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1576838827}
-  - {fileID: 1971505896}
   - {fileID: 1182292953}
+  - {fileID: 1971505896}
   - {fileID: 412056865}
   - {fileID: 618984797}
   m_Father: {fileID: 0}
@@ -17929,10 +17923,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1182292952}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1013948533}
+        m_TargetAssemblyTypeName: SequenceManager, Assembly-CSharp
+        m_MethodName: OnNamazTimingClosed
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -18741,7 +18735,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1332552520}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 517.9685, y: 10.240768, z: 417.18375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -18786,12 +18780,12 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    m_Quality: 3
-    m_FrameInfluence: 0.1
-    m_JitterScale: 1
-    m_MipBias: 0
-    m_VarianceClampScale: 0.9
-    m_ContrastAdaptiveSharpening: 0
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
 --- !u!114 &1332552527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19179,10 +19173,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 412056864}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1013948533}
+        m_TargetAssemblyTypeName: SequenceManager, Assembly-CSharp
+        m_MethodName: OnNamazClosed
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -21035,10 +21029,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 524813739}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1013948533}
+        m_TargetAssemblyTypeName: SequenceManager, Assembly-CSharp
+        m_MethodName: OnNamazClosed
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -21747,10 +21741,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 429118157}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1013948533}
+        m_TargetAssemblyTypeName: SequenceManager, Assembly-CSharp
+        m_MethodName: OnWazuClosed
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -24902,12 +24896,12 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    m_Quality: 3
-    m_FrameInfluence: 0.1
-    m_JitterScale: 1
-    m_MipBias: 0
-    m_VarianceClampScale: 0.9
-    m_ContrastAdaptiveSharpening: 0
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
 --- !u!20 &1765170718
 Camera:
   m_ObjectHideFlags: 0
@@ -26486,10 +26480,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442876677}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1013948533}
+        m_TargetAssemblyTypeName: SequenceManager, Assembly-CSharp
+        m_MethodName: OnMinaClosed
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -26497,18 +26491,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 961058886}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1815152111
 MonoBehaviour:
@@ -28671,7 +28653,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1991412151}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0077972226, y: -0.1646447, z: 0.0013015752, w: 0.9863213}
+  m_LocalRotation: {x: 0.007797225, y: -0.16464473, z: 0.0013015759, w: 0.9863213}
   m_LocalPosition: {x: 21.261963, y: -2.8999996, z: -41.36731}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -30239,10 +30221,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1971505895}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1013948533}
+        m_TargetAssemblyTypeName: SequenceManager, Assembly-CSharp
+        m_MethodName: OnWazuClosed
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -30534,7 +30516,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2093828885}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.010149808, y: -0.1302899, z: -0.0013338575, w: 0.99142313}
+  m_LocalRotation: {x: -0.010149819, y: -0.13028984, z: -0.0013338586, w: 0.99142313}
   m_LocalPosition: {x: 16.810913, y: -2.8999996, z: -42.725067}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
