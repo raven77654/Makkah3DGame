@@ -5,7 +5,7 @@ using UnityEngine.Video;
 public class PanelManager : MonoBehaviour
 {
     public GameObject mainPanel;     // Assign the MainPanel in Inspector
-    public GameObject finalPanel;    // Assign the FinalPanel in Inspector
+   // public GameObject finalPanel;    // Assign the FinalPanel in Inspector
     public VideoPlayer videoPlayer;  // Assign the VideoPlayer in Inspector
     public AudioSource audioSource;  // Assign the AudioSource in Inspector
     public AudioClip firstAudio;     // First audio clip
@@ -16,9 +16,6 @@ public class PanelManager : MonoBehaviour
 
     void Start()
     {
-        // Ensure the final panel is hidden at the start
-        finalPanel.SetActive(false);
-
         // Register for the video end event
         if (videoPlayer != null)
         {
@@ -40,7 +37,7 @@ public class PanelManager : MonoBehaviour
 
         // Show the final panel with the Home and Restart buttons
         mainPanel.SetActive(false); // Hide the main panel
-        finalPanel.SetActive(true); // Show the final panel
+       
     }
 
     // This method will be called when the video finishes
@@ -58,29 +55,19 @@ public class PanelManager : MonoBehaviour
             {
                 // After second audio ends, show the final panel
                 mainPanel.SetActive(false); // Hide the main panel
-                finalPanel.SetActive(true); // Show the final panel
+                
             }
         }
     }
 
-    public void OnFinalPanelHomeButton()
-    {
-        SceneManager.LoadScene("Select_Location");  // Load the level menu scene
-    }
-
+   
     // Method for Restart button to reload the current scene
     public void OnFinalPanelRestartButton()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);  // Reload the current scene
     }
 
-    // Method for Cancel button to hide the final panel
-    public void OnFinalPanelCancelButton()
-    {
-        finalPanel.SetActive(false);  // Hide final panel
-    }
-
-    // Method for Close button in final panel to exit the game
+    
     public void OnFinalPanelCloseButton()
     {
         Debug.Log("Closing the application.");
